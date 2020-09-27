@@ -1,0 +1,33 @@
+# Workflow to trigger labels by keywords
+
+name: Label Trigger
+
+on:
+  issue_comment:
+    types: created
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  take:
+    runs-on: ubuntu-latest
+    if: github.event.comment.body == '#take'
+    steps:
+
+      # Assign
+      - name: Assign
+        run: echo "Assign to ${{ github.event.comment.user.login }}"
+
+      # Remove help-wanted
+      - name: Remove help-wanted tag
+        if: contains(github.event.issue.labels.*.name, 'help wanted')
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['help wanted']
+            })
