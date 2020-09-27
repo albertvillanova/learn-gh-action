@@ -25,9 +25,9 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.issues.addLabels({
-              issue_number: context.issue.number,
+            github.issues.removeLabel({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['help wanted']
+              issue_number: context.issue.number,
+              name: 'help wanted'
             })
