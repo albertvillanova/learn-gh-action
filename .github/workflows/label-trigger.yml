@@ -16,7 +16,17 @@ jobs:
 
       # Assign
       - name: Assign
-        run: echo "Assign to ${{ github.event.comment.user.login }}"
+#         run: echo "Assign to ${{ github.event.comment.user.login }}"
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              assignees: [ ${{ github.event.comment.user.login }} ]
+            })
 
       # Remove help-wanted
       - name: Remove help-wanted tag
