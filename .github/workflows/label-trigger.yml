@@ -9,7 +9,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  take:
+  assign:
     runs-on: ubuntu-latest
     if: github.event.comment.body == '#take'
     steps:
@@ -28,8 +28,11 @@ jobs:
               assignees: [ '${{ github.event.comment.user.login }}' ]
             })
 
-      # Remove help-wanted
-      - name: Remove help-wanted tag
+  remove-label-help-wanted:
+    runs-on: ubuntu-latest
+    if: github.event.comment.body == '#take'
+    steps:
+      - name: Remove label help-wanted
         if: contains(github.event.issue.labels.*.name, 'help wanted')
         uses: actions/github-script@v3
         with:
@@ -42,8 +45,11 @@ jobs:
               name: 'help wanted'
             })
 
-      # Remove stalled
-      - name: Remove stalled tag
+  remove-label-stalled:
+    runs-on: ubuntu-latest
+    if: github.event.comment.body == '#take'
+    steps:
+      - name: Remove label stalled
         if: github.event.issue.pull_request && contains(github.event.issue.labels.*.name, 'stalled')
         uses: actions/github-script@v3
         with:
@@ -56,8 +62,11 @@ jobs:
               name: 'stalled'
             })
 
-      # Add superseded
-      - name: Add superseded tag
+  add-label-superseded:
+    runs-on: ubuntu-latest
+    if: github.event.comment.body == '#take'
+    steps:
+      - name: Add label superseded
         if: github.event.issue.pull_request && !contains(github.event.issue.labels.*.name, 'superseded')
         uses: actions/github-script@v3
         with:
