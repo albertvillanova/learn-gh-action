@@ -44,7 +44,7 @@ jobs:
 
       # Remove stalled
       - name: Remove stalled tag
-        if: contains(github.event.issue.labels.*.name, 'stalled')
+        if: github.event.issue.pull_request && contains(github.event.issue.labels.*.name, 'stalled')
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -58,7 +58,7 @@ jobs:
 
       # Add superseded
       - name: Add superseded tag
-        if: (!contains(github.event.issue.labels.*.name, 'superseded'))
+        if: github.event.issue.pull_request && !contains(github.event.issue.labels.*.name, 'superseded')
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
