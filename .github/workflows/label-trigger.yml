@@ -58,7 +58,7 @@ jobs:
 
       # Add superseded
       - name: Add superseded tag
-        if: !contains(github.event.issue.labels.*.name, 'superseded')
+        if: (!contains(github.event.issue.labels.*.name, 'superseded'))
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
