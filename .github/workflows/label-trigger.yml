@@ -70,50 +70,50 @@ jobs:
               labels: ['superseded']
             })
 
-  take-action:
-    runs-on: ubuntu-latest
-    if: github.event.comment.body == '#take'
-    steps:
-      - name: Add tag
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['invalid']
-            })
-      - name: Add tag 2
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['question']
-            })
+#   take-action:
+#     runs-on: ubuntu-latest
+#     if: github.event.comment.body == '#take'
+#     steps:
+#       - name: Add tag
+#         uses: actions/github-script@v3
+#         with:
+#           github-token: ${{secrets.GITHUB_TOKEN}}
+#           script: |
+#             github.issues.addLabels({
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               issue_number: context.issue.number,
+#               labels: ['invalid']
+#             })
+#       - name: Add tag 2
+#         uses: actions/github-script@v3
+#         with:
+#           github-token: ${{secrets.GITHUB_TOKEN}}
+#           script: |
+#             github.issues.addLabels({
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               issue_number: context.issue.number,
+#               labels: ['question']
+#             })
             
-  take-command:
-    runs-on: ubuntu-latest
-    if: github.event.comment.body == '#take'
-    steps:
-      - name: Add tag
-        run: |
-          curl \
-          -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels \
-          -d '{"labels":["bug"]}'
-      - name: Add tag 2
-        run: |
-          curl \
-          -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels \
-          -d '{"labels":["wontfix"]}'
+#   take-command:
+#     runs-on: ubuntu-latest
+#     if: github.event.comment.body == '#take'
+#     steps:
+#       - name: Add tag
+#         run: |
+#           curl \
+#           -X POST \
+#           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+#           -H "Accept: application/vnd.github.v3+json" \
+#           https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels \
+#           -d '{"labels":["bug"]}'
+#       - name: Add tag 2
+#         run: |
+#           curl \
+#           -X POST \
+#           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+#           -H "Accept: application/vnd.github.v3+json" \
+#           https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels \
+#           -d '{"labels":["wontfix"]}'
